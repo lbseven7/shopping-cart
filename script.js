@@ -75,12 +75,15 @@ btnEmptyCart.addEventListener('click', removeAllItemsCart);
 
 // Requisito 7 loading enquanto faz a requisição API
 async function loading() {
-  const response = await fetchProducts('computador');
-  console.log(response);
-  window.alert('loading...');
-  return response;
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+  div.classList.add('loading');
+  const label = document.createElement('label');
+  label.innerText = 'carregando...';
+  div.appendChild(label);
+  // window.alert('loading...');
+  // return response;
 }
-// loading();
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
