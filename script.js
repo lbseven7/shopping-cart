@@ -1,4 +1,3 @@
-// alert('opa!');
 const products = document.querySelector('.items'); // 
 const ol = document.querySelector('.cart__items'); // 
 
@@ -68,19 +67,20 @@ const calledFetchProducts = async () => {
 };
 
 // Requisito 6 - remover todos os itens do carrinho
-const btnEmptyCart = document.querySelector('.empty-cart');
-btnEmptyCart.addEventListener('click', removeAllItemsCart); 
 function removeAllItemsCart() {
   ol.innerHTML = '';
 }
+const btnEmptyCart = document.querySelector('.empty-cart');
+btnEmptyCart.addEventListener('click', removeAllItemsCart); 
 
-// // Requisito 7 loading enquanto faz a requisição API
-// async function loading() {
-//   const response = await fetchProducts('computador');
-//   window.alert('loading...');
-//   return response;
-// }
-// // loading();
+// Requisito 7 loading enquanto faz a requisição API
+async function loading() {
+  const response = await fetchProducts('computador');
+  console.log(response);
+  window.alert('loading...');
+  return response;
+}
+// loading();
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -88,6 +88,7 @@ function getSkuFromProductItem(item) {
 
 window.onload = async () => {
   await calledFetchProducts();
-  await getSkuFromProductItem();
+  await removeAllItemsCart();
   await loading();
+  await getSkuFromProductItem();
 };
