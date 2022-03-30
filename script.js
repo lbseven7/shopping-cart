@@ -55,9 +55,28 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// Requisito 7 loading enquanto faz a requisição API
+async function loading() {
+  const div = document.createElement('div');
+  const label = document.createElement('label');
+  const header = document.querySelector('.container');
+  document.body.appendChild(div);
+  document.body.insertBefore(div, header);
+  div.appendChild(label);
+  label.classList.add('loading');
+  label.innerText = 'carregando...';
+}
+
+function removeLoading() {
+  const remove = document.querySelector('label');
+  remove.remove();
+}
+
 // eu
 const calledFetchProducts = async () => {
+  loading();
   const response = await fetchProducts('computador'); 
+  removeLoading();
   const array = response.results;
   array.forEach((element) => {
     const { id, title, thumbnail } = element; // destructuring
@@ -73,18 +92,6 @@ function removeAllItemsCart() {
 const btnEmptyCart = document.querySelector('.empty-cart');
 btnEmptyCart.addEventListener('click', removeAllItemsCart); 
 
-// Requisito 7 loading enquanto faz a requisição API
-async function loading() {
-  const div = document.createElement('div');
-  document.body.appendChild(div);
-  div.classList.add('loading');
-  const label = document.createElement('label');
-  label.innerText = 'carregando...';
-  div.appendChild(label);
-  // window.alert('loading...');
-  // return response;
-}
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -92,6 +99,5 @@ function getSkuFromProductItem(item) {
 window.onload = async () => {
   await calledFetchProducts();
   await removeAllItemsCart();
-  await loading();
   await getSkuFromProductItem();
 };
