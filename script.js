@@ -4,6 +4,7 @@ const ol = document.querySelector('.cart__items'); //
 // remove o item clicado por vez
 function cartItemClickListener(event) {
   event.target.remove();
+  // saveCartItems();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -27,6 +28,7 @@ async function addCart(id) {
   const add = await fetchItem(id); // item vindo da API
   const createCart = createCartItemElement(add); // criando o cart
   ol.appendChild(createCart);
+  // saveCartItems();
 }
 
 // customização dos elementos/items
@@ -67,8 +69,9 @@ async function loading() {
   label.innerText = 'carregando...';
 }
 
+// Requisito 7 remove o 'carregando...'
 function removeLoading() {
-  const remove = document.querySelector('label');
+  const remove = document.querySelector('label'); // label na mão
   remove.remove();
 }
 
@@ -76,19 +79,20 @@ function removeLoading() {
 const calledFetchProducts = async () => {
   loading();
   const response = await fetchProducts('computador'); 
-  removeLoading();
   const array = response.results;
   array.forEach((element) => {
     const { id, title, thumbnail } = element; // destructuring
     const objectItems = { sku: id, name: title, image: thumbnail };
     products.appendChild(createProductItemElement(objectItems));
   });
+  removeLoading();
 };
 
 // Requisito 6 - remover todos os itens do carrinho
 function removeAllItemsCart() {
   ol.innerHTML = '';
 }
+
 const btnEmptyCart = document.querySelector('.empty-cart');
 btnEmptyCart.addEventListener('click', removeAllItemsCart); 
 
@@ -99,5 +103,7 @@ function getSkuFromProductItem(item) {
 window.onload = async () => {
   await calledFetchProducts();
   await removeAllItemsCart();
+  await saveCartItem();
+  await getSavedCartItems();
   await getSkuFromProductItem();
 };
